@@ -1,0 +1,16 @@
+[lobby]
+max_players = 10
+max_bots = 4
+require_all_ready = true
+auto_start = false
+countdown_seconds = 5
+
+[lobby.timeouts]
+idle_timeout = 300
+join_timeout = 60
+ready_timeout = 120
+
+[lobby.defaults]
+allow_bots = true
+allow_spectators = false
+private = false

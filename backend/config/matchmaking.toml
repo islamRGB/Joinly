@@ -1,0 +1,27 @@
+[matchmaking]
+enabled = true
+tick_rate = 1.0
+
+[matchmaking.queues.casual]
+players_per_match = 10
+max_skill_diff = 200
+team_mode = true
+team_size = 5
+max_wait_time = 300
+priority_enabled = false
+
+[matchmaking.queues.ranked]
+players_per_match = 10
+max_skill_diff = 100
+team_mode = true
+team_size = 5
+max_wait_time = 600
+priority_enabled = true
+
+[matchmaking.queues.quick]
+players_per_match = 6
+max_skill_diff = 500
+team_mode = false
+team_size = 0
+max_wait_time = 120
+priority_enabled = false

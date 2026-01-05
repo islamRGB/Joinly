@@ -1,0 +1,19 @@
+[admin]
+port = 5000
+host = "0.0.0.0"
+debug = true
+secret_key = "joinly_secret_key_change_in_production"
+
+[admin.cors]
+enabled = true
+origins = ["*"]
+
+[admin.logging]
+level = "INFO"
+file = "joinly.log"
+max_bytes = 10485760
+backup_count = 5
+
+[admin.control_panel]
+enabled = true
+auto_open = true

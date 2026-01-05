@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joinly - Multiplayer Lobby</title>
+    <link rel="stylesheet" href="lobby.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="header">
+        <img src="assets/joinly_logo.png" alt="Joinly" class="logo">
+        <h1>JOINLY</h1>
+    </div>
+
+    <div class="container">
+        <div class="join-section" id="join-section">
+            <div class="join-card">
+                <h2>Join a Lobby</h2>
+                <input type="text" id="username" placeholder="Enter your username" class="input">
+                <input type="text" id="lobby-id" placeholder="Lobby ID (optional)" class="input">
+                <button onclick="joinLobby()" class="btn-join">Join Game</button>
+                <button onclick="createAndJoin()" class="btn-create">Create New Lobby</button>
+            </div>
+            
+            <div class="lobbies-list">
+                <h3>Available Lobbies</h3>
+                <div id="available-lobbies"></div>
+            </div>
+        </div>
+
+        <div class="lobby-section" id="lobby-section" style="display: none;">
+            <div class="lobby-info">
+                <h2 id="current-lobby-id"></h2>
+                <div class="lobby-stats">
+                    <span id="player-count-display">Players: 0/10</span>
+                    <span id="bot-count-display">Bots: 0/4</span>
+                </div>
+            </div>
+
+            <div class="players-grid" id="players-grid"></div>
+
+            <div class="lobby-actions">
+                <button onclick="toggleReady()" id="ready-btn" class="btn-ready">Ready Up</button>
+                <button onclick="leaveLobby()" class="btn-leave">Leave Lobby</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Powered by <strong>Joinly</strong> | Made by <a href="https://emodi.me" target="_blank">emodi</a></p>
+    </div>
+
+    <script>
+        const socket = io('http://localhost:5000');
+        let currentLobbyId = null;
+        let playerId = null;
+        let isReady = false;
+
+        socket.on('connect', () => {
+            console.log('Connected to Joinly');
+            loadAvailableLobbies();
+        });
+
+        socket.on('lobby_state', (data) => {
+            updateLobbyDisplay(data);
+        });
+
+        socket.on('player_joined', (data) => {
+            loadCurrentLobby();
+        });
+
+        socket.on('player_left', (data) => {
+            loadCurrentLobby();
+        });
+
+        socket.on('player_ready', (data) => {
+            loadCurrentLobby();
+        });
+
+        socket.on('bot_added', (data) => {
+            loadCurrentLobby();
+        });
+
+        function loadAvailableLobbies() {
+            fetch('/api/lobbies')
+                .then(r => r.json())
+                .then(data => {
+                    const container = document.getElementById('available-lobbies');
+                    container.innerHTML = data.lobbies.map(lobby => `
+                        <div class="lobby-item" onclick="quickJoin('${lobby.lobby_id}')">
+                            <div class="lobby-item-header">
+                                <strong>${lobby.lobby_id}</strong>
+                                <span class="lobby-status ${lobby.state}">${lobby.state}</span>
+                            </div>
+                            <div class="lobby-item-info">
+                                ${lobby.player_count}/${lobby.max_players} players
+                            </div>
+                        </div>
+                    `).join('');
+                });
+        }
+
+        function joinLobby() {
+            const username = document.getElementById('username').value;
+            let lobbyId = document.getElementById('lobby-id').value;
+
+            if (!username) {
+                alert('Please enter a username');
+                return;
+            }
+
+            if (!lobbyId) {
+                createAndJoin();
+                return;
+            }
+
+            playerId = 'player_' + Date.now();
+            currentLobbyId = lobbyId;
+
+            socket.emit('join_lobby', {
+                lobby_id: lobbyId,
+                player_id: playerId,
+                username: username
+            });
+
+            document.getElementById('join-section').style.display = 'none';
+            document.getElementById('lobby-section').style.display = 'block';
+            document.getElementById('current-lobby-id').textContent = lobbyId;
+        }
+
+        function createAndJoin() {
+            const username = document.getElementById('username').value;
+
+            if (!username) {
+                alert('Please enter a username');
+                return;
+            }
+
+            const lobbyId = 'lobby_' + Date.now();
+            
+            fetch('/api/lobbies', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({lobby_id: lobbyId, config: {}})
+            }).then(() => {
+                document.getElementById('lobby-id').value = lobbyId;
+                joinLobby();
+            });
+        }
+
+        function quickJoin(lobbyId) {
+            document.getElementById('lobby-id').value = lobbyId;
+            if (document.getElementById('username').value) {
+                joinLobby();
+            }
+        }
+
+        function toggleReady() {
+            isReady = !isReady;
+            
+            socket.emit('set_ready', {
+                lobby_id: currentLobbyId,
+                player_id: playerId,
+                ready: isReady
+            });
+
+            const btn = document.getElementById('ready-btn');
+            btn.textContent = isReady ? 'Not Ready' : 'Ready Up';
+            btn.className = isReady ? 'btn-not-ready' : 'btn-ready';
+        }
+
+        function leaveLobby() {
+            socket.emit('leave_lobby', {
+                lobby_id: currentLobbyId,
+                player_id: playerId
+            });
+
+            document.getElementById('join-section').style.display = 'block';
+            document.getElementById('lobby-section').style.display = 'none';
+            currentLobbyId = null;
+            isReady = false;
+        }
+
+        function loadCurrentLobby() {
+            socket.emit('get_lobby', {lobby_id: currentLobbyId});
+        }
+
+        function updateLobbyDisplay(lobby) {
+            document.getElementById('player-count-display').textContent = 
+                `Players: ${lobby.player_count}/${lobby.max_players}`;
+            document.getElementById('bot-count-display').textContent = 
+                `Bots: ${lobby.bot_count}/${lobby.max_bots}`;
+
+            const grid = document.getElementById('players-grid');
+            const allEntities = [...lobby.players, ...lobby.bots];
+            
+            grid.innerHTML = allEntities.map(entity => `
+                <div class="player-card ${entity.ready ? 'ready' : ''}">
+                    <div class="player-name">${entity.username}</div>
+                    <div class="player-status">
+                        ${entity.is_bot ? '🤖 BOT' : '👤 PLAYER'}
+                        ${entity.ready ? ' ✓' : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        setInterval(loadAvailableLobbies, 5000);
+    </script>
+</body>
+</html>

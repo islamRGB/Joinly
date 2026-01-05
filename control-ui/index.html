@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joinly Control Panel</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-section">
+            <img src="assets/joinly_logo.png" alt="Joinly Logo" class="logo">
+            <h1>JOINLY Control Panel</h1>
+        </div>
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-label">Lobbies:</span>
+                <span class="stat-value" id="lobby-count">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Players:</span>
+                <span class="stat-value" id="player-count">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Bots:</span>
+                <span class="stat-value" id="bot-count">0</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav class="sidebar">
+            <button class="nav-btn active" onclick="showPanel('lobby')">Lobbies</button>
+            <button class="nav-btn" onclick="showPanel('players')">Players</button>
+            <button class="nav-btn" onclick="showPanel('bots')">Bots</button>
+            <button class="nav-btn" onclick="showPanel('matchmaking')">Matchmaking</button>
+            <button class="nav-btn" onclick="showPanel('logs')">Logs</button>
+        </nav>
+
+        <main class="content">
+            <div id="lobby-panel" class="panel active">
+                <div class="panel-header">
+                    <h2>Active Lobbies</h2>
+                    <button class="btn-primary" onclick="createLobby()">+ Create Lobby</button>
+                </div>
+                <div id="lobby-list" class="card-grid"></div>
+            </div>
+
+            <div id="players-panel" class="panel">
+                <div class="panel-header">
+                    <h2>Connected Players</h2>
+                </div>
+                <div id="players-list" class="card-grid"></div>
+            </div>
+
+            <div id="bots-panel" class="panel">
+                <div class="panel-header">
+                    <h2>Bot Management</h2>
+                    <select id="bot-profile" class="select-input">
+                        <option value="default">Default</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="expert">Expert</option>
+                        <option value="master">Master</option>
+                    </select>
+                    <button class="btn-primary" onclick="createBot()">+ Create Bot</button>
+                </div>
+                <div id="bots-list" class="card-grid"></div>
+            </div>
+
+            <div id="matchmaking-panel" class="panel">
+                <div class="panel-header">
+                    <h2>Matchmaking Queues</h2>
+                    <button class="btn-primary" onclick="createQueue()">+ Create Queue</button>
+                </div>
+                <div id="queue-list" class="card-grid"></div>
+            </div>
+
+            <div id="logs-panel" class="panel">
+                <div class="panel-header">
+                    <h2>Event Logs</h2>
+                    <button class="btn-secondary" onclick="clearLogs()">Clear Logs</button>
+                </div>
+                <div id="logs-container" class="logs-box"></div>
+            </div>
+        </main>
+    </div>
+
+    <div class="footer">
+        <p>Made by <a href="https://emodi.me" target="_blank">emodi</a> | Joinly Framework v1.0</p>
+    </div>
+
+    <script>
+        const socket = io('http://localhost:5000');
+        let currentPanel = 'lobby';
+
+        socket.on('connect', () => {
+            console.log('Connected to Joinly');
+            loadAllData();
+        });
+
+        function showPanel(panelName) {
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(panelName + '-panel').classList.add('active');
+            event.target.classList.add('active');
+            currentPanel = panelName;
+            
+            loadPanelData(panelName);
+        }
+
+        function loadAllData() {
+            fetch('/api/lobbies')
+                .then(r => r.json())
+                .then(data => {
+                    renderLobbies(data.lobbies);
+                    updateStats(data.lobbies);
+                });
+            
+            fetch('/api/players')
+                .then(r => r.json())
+                .then(data => renderPlayers(data.players));
+            
+            fetch('/api/bots')
+                .then(r => r.json())
+                .then(data => renderBots(data.bots));
+            
+            fetch('/api/queues')
+                .then(r => r.json())
+                .then(data => renderQueues(data.queues));
+            
+            fetch('/api/admin/events')
+                .then(r => r.json())
+                .then(data => renderLogs(data.events));
+        }
+
+        function loadPanelData(panel) {
+            if (panel === 'lobby') loadAllData();
+            else if (panel === 'players') fetch('/api/players').then(r => r.json()).then(data => renderPlayers(data.players));
+            else if (panel === 'bots') fetch('/api/bots').then(r => r.json()).then(data => renderBots(data.bots));
+            else if (panel === 'matchmaking') fetch('/api/queues').then(r => r.json()).then(data => renderQueues(data.queues));
+            else if (panel === 'logs') fetch('/api/admin/events').then(r => r.json()).then(data => renderLogs(data.events));
+        }
+
+        function renderLobbies(lobbies) {
+            const container = document.getElementById('lobby-list');
+            container.innerHTML = lobbies.map(lobby => `
+                <div class="card">
+                    <div class="card-header">
+                        <h3>${lobby.lobby_id}</h3>
+                        <span class="badge ${lobby.state === 'ready' ? 'badge-success' : 'badge-warning'}">${lobby.state}</span>
+                    </div>
+                    <div class="card-body">
+                        <p>Players: ${lobby.player_count}/${lobby.max_players}</p>
+                        <p>Bots: ${lobby.bot_count}/${lobby.max_bots}</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn-secondary" onclick="viewLobby('${lobby.lobby_id}')">View</button>
+                        <button class="btn-danger" onclick="deleteLobby('${lobby.lobby_id}')">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderPlayers(players) {
+            const container = document.getElementById('players-list');
+            container.innerHTML = players.map(player => `
+                <div class="card">
+                    <div class="card-header">
+                        <h3>${player.username}</h3>
+                        <span class="badge ${player.connected ? 'badge-success' : 'badge-danger'}">
+                            ${player.connected ? 'Online' : 'Offline'}
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <p>ID: ${player.player_id}</p>
+                        <p>Skill: ${player.skill_rating}</p>
+                        <p>Ready: ${player.ready ? 'Yes' : 'No'}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderBots(bots) {
+            const container = document.getElementById('bots-list');
+            container.innerHTML = bots.map(bot => `
+                <div class="card">
+                    <div class="card-header">
+                        <h3>${bot.username}</h3>
+                        <span class="badge badge-info">${bot.behavior}</span>
+                    </div>
+                    <div class="card-body">
+                        <p>Skill: ${bot.skill_rating}</p>
+                        <p>Ready: ${bot.ready ? 'Yes' : 'No'}</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn-danger" onclick="deleteBot('${bot.bot_id}')">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderQueues(queues) {
+            const container = document.getElementById('queue-list');
+            container.innerHTML = queues.map(queue => `
+                <div class="card">
+                    <div class="card-header">
+                        <h3>${queue.queue_id}</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Players/Match: ${queue.players_per_match}</p>
+                        <p>Queue Length: ${queue.queue_length}</p>
+                        <p>Avg Wait: ${queue.average_wait_time.toFixed(1)}s</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderLogs(events) {
+            const container = document.getElementById('logs-container');
+            container.innerHTML = events.reverse().map(event => `
+                <div class="log-entry">
+                    <span class="log-time">${new Date(event.timestamp * 1000).toLocaleTimeString()}</span>
+                    <span class="log-event">${event.event}</span>
+                    <span class="log-data">${JSON.stringify(event.data)}</span>
+                </div>
+            `).join('');
+        }
+
+        function updateStats(lobbies) {
+            document.getElementById('lobby-count').textContent = lobbies.length;
+            const totalPlayers = lobbies.reduce((sum, l) => sum + l.player_count, 0);
+            const totalBots = lobbies.reduce((sum, l) => sum + l.bot_count, 0);
+            document.getElementById('player-count').textContent = totalPlayers;
+            document.getElementById('bot-count').textContent = totalBots;
+        }
+
+        function createLobby() {
+            const lobbyId = 'lobby_' + Date.now();
+            fetch('/api/lobbies', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({lobby_id: lobbyId, config: {}})
+            }).then(() => loadAllData());
+        }
+
+        function deleteLobby(lobbyId) {
+            fetch(`/api/lobbies/${lobbyId}`, {method: 'DELETE'})
+                .then(() => loadAllData());
+        }
+
+        function createBot() {
+            const profile = document.getElementById('bot-profile').value;
+            fetch('/api/bots', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({profile})
+            }).then(() => loadAllData());
+        }
+
+        function deleteBot(botId) {
+            fetch(`/api/bots/${botId}`, {method: 'DELETE'})
+                .then(() => loadAllData());
+        }
+
+        function createQueue() {
+            const queueId = 'queue_' + Date.now();
+            fetch('/api/queues', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({queue_id: queueId, config: {players_per_match: 10}})
+            }).then(() => loadAllData());
+        }
+
+        function clearLogs() {
+            document.getElementById('logs-container').innerHTML = '';
+        }
+
+        function viewLobby(lobbyId) {
+            alert('View lobby: ' + lobbyId);
+        }
+
+        setInterval(loadAllData, 5000);
+    </script>
+</body>
+</html>

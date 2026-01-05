@@ -1,0 +1,130 @@
+2025-12-26 03:01:47,932 - joinly - INFO - Joinly framework initialized
+2025-12-26 03:01:47,954 - joinly - INFO - Starting services...
+2025-12-26 03:01:47,956 - joinly - INFO - All services started
+2025-12-26 03:07:49,217 - joinly - INFO - Joinly framework initialized
+2025-12-26 03:07:49,244 - joinly - INFO - Starting services...
+2025-12-26 03:07:49,246 - joinly - INFO - All services started
+2025-12-26 03:15:09,074 - joinly - INFO - Joinly framework initialized
+2025-12-26 03:15:09,117 - joinly - INFO - Starting services...
+2025-12-26 03:15:09,120 - joinly - INFO - All services started
+2025-12-26 03:17:28,853 - joinly - INFO - Joinly framework initialized
+2025-12-26 03:17:28,901 - joinly - INFO - Starting services...
+2025-12-26 03:17:28,906 - joinly - INFO - All services started
+2025-12-26 03:21:54,771 - joinly - INFO - Joinly framework initialized
+2025-12-26 03:21:54,809 - joinly - INFO - Starting services...
+2025-12-26 03:21:54,811 - joinly - INFO - All services started
+2025-12-26 03:22:29,098 - joinly - INFO - Running periodic cleanup
+2025-12-26 03:30:13,495 - joinly - INFO - Joinly framework initialized
+2025-12-26 03:30:13,569 - joinly - INFO - Starting services...
+2025-12-26 03:30:13,575 - joinly - INFO - All services started
+2025-12-26 15:19:15,813 - joinly - INFO - Joinly framework initialized
+2025-12-26 15:19:15,829 - joinly - INFO - Starting services...
+2025-12-26 15:19:15,830 - joinly - INFO - All services started
+2025-12-26 15:20:18,273 - joinly - INFO - Joinly framework initialized
+2025-12-26 15:20:18,292 - joinly - INFO - Starting services...
+2025-12-26 15:20:18,293 - joinly - INFO - All services started
+2025-12-26 15:21:46,981 - joinly - INFO - Joinly framework initialized
+2025-12-26 15:21:47,003 - joinly - INFO - Starting services...
+2025-12-26 15:21:47,004 - joinly - INFO - All services started
+2025-12-26 21:18:29,987 - joinly - INFO - Joinly framework initialized
+2025-12-26 21:18:30,063 - joinly - INFO - Starting services...
+2025-12-26 21:18:30,068 - joinly - INFO - All services started
+2025-12-26 21:22:20,862 - joinly - INFO - Joinly framework initialized
+2025-12-26 21:22:20,898 - joinly - INFO - Starting services...
+2025-12-26 21:22:20,901 - joinly - INFO - All services started
+2025-12-27 14:15:34,917 - joinly - INFO - Joinly framework initialized
+2025-12-27 14:15:34,946 - joinly - INFO - Starting services...
+2025-12-27 14:15:34,948 - joinly - INFO - All services started
+2025-12-27 14:16:02,189 - joinly - INFO - Joinly framework initialized
+2025-12-27 14:16:02,207 - joinly - INFO - Starting services...
+2025-12-27 14:16:02,209 - joinly - INFO - All services started
+2025-12-27 14:16:19,279 - joinly - INFO - Joinly framework initialized
+2025-12-27 14:16:19,308 - joinly - INFO - Starting services...
+2025-12-27 14:16:19,310 - joinly - INFO - All services started
+2025-12-28 15:40:23,792 - joinly - INFO - Joinly framework initialized
+2025-12-28 15:40:23,818 - joinly - INFO - Starting services...
+2025-12-28 15:40:23,820 - joinly - INFO - All services started
+2025-12-28 16:06:20,378 - joinly - INFO - Joinly framework initialized
+2025-12-28 16:06:20,399 - joinly - INFO - Starting services...
+2025-12-28 16:06:20,401 - joinly - INFO - All services started
+2025-12-28 16:06:51,678 - joinly - INFO - Joinly framework initialized
+2025-12-28 16:06:51,700 - joinly - INFO - Starting services...
+2025-12-28 16:06:51,701 - joinly - INFO - All services started
+2025-12-28 16:09:55,503 - joinly - INFO - Joinly framework initialized
+2025-12-28 16:09:55,527 - joinly - INFO - Starting services...
+2025-12-28 16:09:55,528 - joinly - INFO - All services started
+2025-12-28 16:10:48,174 - joinly - INFO - Joinly framework initialized
+2025-12-28 16:10:48,195 - joinly - INFO - Starting services...
+2025-12-28 16:10:48,196 - joinly - INFO - All services started
+2025-12-28 16:12:24,275 - joinly - INFO - Joinly framework initialized
+2025-12-28 16:12:24,293 - joinly - INFO - Starting services...
+2025-12-28 16:12:24,294 - joinly - INFO - All services started
+2025-12-28 16:22:58,559 - joinly - INFO - Running periodic cleanup
+2025-12-28 17:27:14,029 - joinly - INFO - Running periodic cleanup
+2025-12-28 17:32:14,795 - joinly - INFO - Running periodic cleanup
+2025-12-28 18:05:39,476 - joinly - INFO - Running periodic cleanup
+2025-12-28 18:10:40,108 - joinly - INFO - Running periodic cleanup
+2025-12-28 18:15:40,262 - joinly - INFO - Running periodic cleanup
+2025-12-28 18:52:26,303 - joinly - INFO - Running periodic cleanup
+2025-12-28 18:57:26,998 - joinly - INFO - Running periodic cleanup
+2025-12-28 19:02:27,136 - joinly - INFO - Running periodic cleanup
+2025-12-28 19:07:27,288 - joinly - INFO - Running periodic cleanup
+2025-12-28 19:12:27,447 - joinly - INFO - Running periodic cleanup
+2025-12-28 19:17:27,593 - joinly - INFO - Running periodic cleanup
+2025-12-28 19:22:27,752 - joinly - INFO - Running periodic cleanup
+2025-12-28 19:27:27,906 - joinly - INFO - Running periodic cleanup
+2025-12-28 19:32:28,060 - joinly - INFO - Running periodic cleanup
+2025-12-28 19:37:28,247 - joinly - INFO - Running periodic cleanup
+2025-12-28 19:42:28,435 - joinly - INFO - Running periodic cleanup
+2025-12-28 19:47:28,612 - joinly - INFO - Running periodic cleanup
+2025-12-28 19:52:28,742 - joinly - INFO - Running periodic cleanup
+2025-12-28 19:57:28,880 - joinly - INFO - Running periodic cleanup
+2025-12-28 20:02:29,026 - joinly - INFO - Running periodic cleanup
+2025-12-28 20:07:29,190 - joinly - INFO - Running periodic cleanup
+2025-12-28 20:12:29,337 - joinly - INFO - Running periodic cleanup
+2025-12-28 20:17:29,484 - joinly - INFO - Running periodic cleanup
+2025-12-28 20:22:29,641 - joinly - INFO - Running periodic cleanup
+2025-12-28 20:27:29,802 - joinly - INFO - Running periodic cleanup
+2025-12-28 20:32:29,961 - joinly - INFO - Running periodic cleanup
+2025-12-28 20:37:30,152 - joinly - INFO - Running periodic cleanup
+2025-12-28 20:42:30,339 - joinly - INFO - Running periodic cleanup
+2025-12-28 20:47:30,481 - joinly - INFO - Running periodic cleanup
+2025-12-28 20:52:30,604 - joinly - INFO - Running periodic cleanup
+2025-12-28 20:57:30,740 - joinly - INFO - Running periodic cleanup
+2025-12-28 21:02:30,948 - joinly - INFO - Running periodic cleanup
+2025-12-28 21:07:31,106 - joinly - INFO - Running periodic cleanup
+2025-12-28 21:12:31,608 - joinly - INFO - Running periodic cleanup
+2025-12-28 21:17:31,833 - joinly - INFO - Running periodic cleanup
+2025-12-28 21:22:32,013 - joinly - INFO - Running periodic cleanup
+2025-12-28 21:27:32,188 - joinly - INFO - Running periodic cleanup
+2025-12-28 21:32:32,448 - joinly - INFO - Running periodic cleanup
+2025-12-28 21:37:32,856 - joinly - INFO - Running periodic cleanup
+2025-12-28 21:42:33,174 - joinly - INFO - Running periodic cleanup
+2025-12-28 21:47:33,307 - joinly - INFO - Running periodic cleanup
+2025-12-28 21:52:33,556 - joinly - INFO - Running periodic cleanup
+2025-12-28 21:57:33,730 - joinly - INFO - Running periodic cleanup
+2025-12-28 22:02:34,072 - joinly - INFO - Running periodic cleanup
+2025-12-28 22:07:34,373 - joinly - INFO - Running periodic cleanup
+2025-12-28 22:12:34,538 - joinly - INFO - Running periodic cleanup
+2025-12-28 22:17:34,741 - joinly - INFO - Running periodic cleanup
+2025-12-28 22:22:35,060 - joinly - INFO - Running periodic cleanup
+2025-12-28 22:27:35,302 - joinly - INFO - Running periodic cleanup
+2025-12-28 22:32:35,584 - joinly - INFO - Running periodic cleanup
+2025-12-28 22:37:35,908 - joinly - INFO - Running periodic cleanup
+2025-12-28 22:42:36,118 - joinly - INFO - Running periodic cleanup
+2025-12-28 22:47:36,365 - joinly - INFO - Running periodic cleanup
+2025-12-28 22:52:36,696 - joinly - INFO - Running periodic cleanup
+2025-12-28 22:57:37,108 - joinly - INFO - Running periodic cleanup
+2025-12-28 23:02:37,298 - joinly - INFO - Running periodic cleanup
+2025-12-28 23:07:37,493 - joinly - INFO - Running periodic cleanup
+2025-12-28 23:12:37,682 - joinly - INFO - Running periodic cleanup
+2025-12-28 23:17:37,953 - joinly - INFO - Running periodic cleanup
+2025-12-28 23:22:38,092 - joinly - INFO - Running periodic cleanup
+2025-12-28 23:27:38,307 - joinly - INFO - Running periodic cleanup
+2025-12-28 23:32:38,472 - joinly - INFO - Running periodic cleanup
+2025-12-28 23:37:38,658 - joinly - INFO - Running periodic cleanup
+2025-12-28 23:42:38,848 - joinly - INFO - Running periodic cleanup
+2025-12-29 15:20:16,544 - joinly - INFO - Joinly framework initialized
+2025-12-29 15:20:16,559 - joinly - INFO - Starting services...
+2025-12-29 15:20:16,561 - joinly - INFO - All services started
+2025-12-29 15:25:16,721 - joinly - INFO - Running periodic cleanup
